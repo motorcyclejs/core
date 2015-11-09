@@ -1,0 +1,49 @@
+{
+  "name": "@motorcycle/core",
+  "version": "0.1.0",
+  "description": "Cycle.js written with Most.js instead of RxJs",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "eslint": "eslint src/",
+    "mocha": "mocha --compilers js:babel-core/register",
+    "test": "npm run eslint && npm run mocha",
+    "compile-lib": "./node_modules/.bin/babel src/ -d lib/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Motorcycle/motorcycle-core.git"
+  },
+  "keywords": [
+    "Cyclejs",
+    "Cycle",
+    "Most",
+    "Mostjs",
+    "Reactive",
+    "Framework"
+  ],
+  "author": "Tylor Steinberger <tlsteinberger167@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Motorcycle/motorcycle-core/issues"
+  },
+  "homepage": "https://github.com/Motorcycle/motorcycle-core#readme",
+  "peerDependencies": {
+    "most": "*"
+  },
+  "devDependencies": {
+    "assert": "^1.3.0",
+    "babel-cli": "^6.0.14",
+    "babel-core": "^6.0.14",
+    "babel-eslint": "^4.1.3",
+    "babel-preset-es2015": "^6.0.14",
+    "eslint": "1.0.x",
+    "eslint-config-cycle": "^3.0.0",
+    "eslint-plugin-cycle": "^1.0.1",
+    "eslint-plugin-no-class": "^0.1.0",
+    "mocha": "^2.3.3",
+    "most": "^0.15.0"
+  }
+}

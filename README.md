@@ -1,5 +1,5 @@
-# Cycle-More
+# Motocycle.js
 
-Cycle.js port to Most.js
+This is a port of Cycle.js built with [most.js](https://github.com/cujojs/most) instead of RxJS.
 
-Get the most out of Cycle (bad pun) :smile:
+More information will be available soon!

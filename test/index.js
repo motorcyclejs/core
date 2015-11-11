@@ -40,14 +40,14 @@ describe(`Cycle`, () => {
 
       const driver = () => Most.just('b');
 
-      const [ left, right ] = run( app, { other: driver } );
+      const { sinks, sources } = run( app, { other: driver } );
 
-      assert.strictEqual(typeof left, 'object');
-      assert.strictEqual(typeof left.other.observe, 'function');
-      assert.strictEqual(typeof right, 'object');
-      assert.notStrictEqual(typeof right.other, 'undefined');
-      assert.notStrictEqual(right.other, null);
-      assert.strictEqual(typeof right.other.observe, 'function');
+      assert.strictEqual(typeof sinks, 'object');
+      assert.strictEqual(typeof sinks.other.observe, 'function');
+      assert.strictEqual(typeof sources, 'object');
+      assert.notStrictEqual(typeof sources.other, 'undefined');
+      assert.notStrictEqual(sources.other, null);
+      assert.strictEqual(typeof sources.other.observe, 'function');
 
       done();
     });
@@ -70,14 +70,14 @@ describe(`Cycle`, () => {
       }
 
 
-      const [left, right] = run(app, {
+      const {sinks, sources} = run(app, {
         Handshake: makeDriver({
           greeting: 'Hello',
           name: 'Cycle'
         })
       });
 
-      right.Handshake.observe(value => {
+      sources.Handshake.observe(value => {
         assert.strictEqual(value, `Hello, world from Cycle!`)
         done();
       });

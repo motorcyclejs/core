@@ -59,7 +59,7 @@ function run(main, drivers) {
   let sources = callDrivers(drivers, sinkProxies)
   let sinks = main(sources)
   replicateMany(sinks, sinkProxies)
-  return [sinks, sources]
+  return {sinks, sources}
 }
 
 export {run}

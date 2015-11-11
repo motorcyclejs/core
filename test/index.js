@@ -1,5 +1,4 @@
 /* global describe, it */
-// comment
 import assert from 'assert';
 import { run } from '../src';
 import Most from 'most';

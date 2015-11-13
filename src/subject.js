@@ -1,8 +1,6 @@
 import most from 'most'
 
-function setImmediate(fn) {
-  return setTimeout(fn, 0)
-}
+const now = fn => setTimeout(fn, 0)
 
 function Subject(initial = null) {
   let _add
@@ -16,23 +14,20 @@ function Subject(initial = null) {
     return _error
   })
 
-  stream.push = v => setImmediate(() => {
-    return typeof _add === `function` ? _add(v) : void 0
-  })
+  stream.push = v => now(
+    () => typeof _add === `function` ? _add(v) : void 0
+  )
 
-  stream.end = () => setImmediate(() => {
-    return typeof _end === `function` ? _end() : void 0
-  })
+  stream.end = () => now(
+    () => typeof _end === `function` ? _end() : void 0
+  )
 
-  stream.error = e => setImmediate(() => {
-    return typeof _error === `function` ? _error(e) : void 0
-  })
+  stream.error = e => now(
+    () => typeof _error === `function` ? _error(e) : void 0
+  )
 
   stream.plug = value$ => {
-    let subject = Subject()
-    value$.forEach(subject.push)
-    subject.forEach(stream.push)
-    return subject.end
+    value$.forEach(stream.push)
   }
 
   if (initial !== null) {

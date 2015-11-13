@@ -1,6 +1,6 @@
 {
   "name": "@motorcycle/core",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Cycle.js written with Most.js instead of RxJs",
   "main": "lib/index.js",
   "directories": {

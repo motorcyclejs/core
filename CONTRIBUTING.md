@@ -255,7 +255,7 @@ A detailed explanation can be found in this [document][commit-message-format].
 
 [gitter-dev]: https://gitter.im/motorcyclejs
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
-[github]: https://github.com/angular/angular.js
+[github]: https://github.com/motorcyclejs/motorcycle-core
 [gitter]: https://gitter.im/motorcyclejs/motorcycle-core
 [jsbin]: http://jsbin.com/
 [jsfiddle]: http://jsfiddle.net/

@@ -69,6 +69,7 @@ describe(`Cycle`, () => {
         return driver;
       }
 
+
       const {sinks, sources} = run(app, {
         Handshake: makeDriver({
           greeting: 'Hello',

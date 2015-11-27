@@ -1,11 +1,13 @@
-import Subject from './subject'
+import Subject from 'most-subject'
+import hold from '@most/hold'
 
 const makeSinkProxies =
   drivers => {
     let sinkProxies = {}
     for (let name in drivers) {
       if (drivers.hasOwnProperty(name)) {
-        sinkProxies[name] = Subject()
+        const {sink, stream} = Subject()
+        sinkProxies[name] = {sink, stream: hold(stream)}
       }
     }
     return sinkProxies
@@ -16,7 +18,7 @@ const callDrivers =
     let sources = {}
     for (let name in drivers) {
       if (drivers.hasOwnProperty(name)) {
-        sources[name] = drivers[name](sinkProxies[name], name)
+        sources[name] = drivers[name](sinkProxies[name].stream, name)
       }
     }
     return sources
@@ -30,7 +32,7 @@ const replicateMany =
           if (sinks.hasOwnProperty(name) &&
           sinkProxies.hasOwnProperty(name))
           {
-            sinks[name].forEach(sinkProxies[name].push)
+            sinks[name].forEach(sinkProxies[name].sink.add)
           }
         }
       }
@@ -69,4 +71,5 @@ const run =
     return {sinks, sources}
   }
 
+export default {run}
 export {run}

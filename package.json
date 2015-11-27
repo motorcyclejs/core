@@ -60,5 +60,8 @@
     "mocha": "^2.3.3",
     "most": "^0.16.0",
     "validate-commit-message": "^3.0.1"
+  },
+  "dependencies": {
+    "@most/hold": "^0.2.0"
   }
 }

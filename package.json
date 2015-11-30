@@ -69,7 +69,8 @@
     "validate-commit-message": "^3.0.1"
   },
   "dependencies": {
-    "@most/hold": "^0.2.0"
+    "@most/hold": "^0.2.0",
+    "most-subject": "^1.0.1"
   },
   "browserify-shim": {
     "most": "global:Most"

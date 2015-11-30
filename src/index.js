@@ -6,8 +6,7 @@ const makeSinkProxies =
     let sinkProxies = {}
     for (let name in drivers) {
       if (drivers.hasOwnProperty(name)) {
-        const {sink, stream} = Subject()
-        sinkProxies[name] = {sink, stream: hold(stream)}
+        sinkProxies[name] = Subject()
       }
     }
     return sinkProxies
@@ -18,7 +17,7 @@ const callDrivers =
     let sources = {}
     for (let name in drivers) {
       if (drivers.hasOwnProperty(name)) {
-        sources[name] = drivers[name](sinkProxies[name].stream, name)
+        sources[name] = drivers[name](hold(sinkProxies[name].stream), name)
       }
     }
     return sources

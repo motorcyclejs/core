@@ -46,33 +46,31 @@
   "contributors": [
     "Frederik Krautwald <fkrautwald@gmail.com> (https://github.com/Frikki)"
   ],
-  "peerDependencies": {
-    "most": "*"
-  },
-  "devDependencies": {
-    "assert": "^1.3.0",
-    "babel-cli": "^6.0.14",
-    "babel-core": "^6.0.14",
-    "babel-eslint": "^4.1.3",
-    "babel-preset-es2015": "^6.0.14",
-    "babelify": "^7.2.0",
-    "browserify": "^12.0.1",
-    "browserify-shim": "^3.8.11",
-    "cli-release": "^1.0.3",
-    "eslint": "1.0.x",
-    "eslint-config-cycle": "^3.0.0",
-    "eslint-plugin-cycle": "^1.0.1",
-    "eslint-plugin-no-class": "^0.1.0",
-    "mocha": "^2.3.3",
-    "most": "^0.16.0",
-    "testem": "^0.9.11",
-    "validate-commit-message": "^3.0.1"
-  },
-  "dependencies": {
-    "@most/hold": "^0.2.0",
-    "most-subject": "^1.0.1"
-  },
   "browserify-shim": {
     "most": "global:Most"
+  },
+  "devDependencies": {
+    "assert": "1.3.0",
+    "babel-cli": "6.3.13",
+    "babel-core": "6.3.13",
+    "babel-eslint": "5.0.0-beta4",
+    "babel-preset-es2015": "6.3.13",
+    "babelify": "7.2.0",
+    "browserify": "12.0.1",
+    "browserify-shim": "3.8.11",
+    "cli-release": "1.0.3",
+    "eslint": "1.0.0",
+    "eslint-config-cycle": "3.1.0",
+    "eslint-plugin-cycle": "1.0.2",
+    "eslint-plugin-no-class": "0.1.0",
+    "mocha": "2.3.4",
+    "most": "0.16.0",
+    "testem": "0.9.11",
+    "validate-commit-message": "3.0.1"
+  },
+  "dependencies": {
+    "@most/hold": "0.2.0",
+    "most": "0.16.0",
+    "most-subject": "1.0.1"
   }
 }

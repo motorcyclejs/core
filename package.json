@@ -12,9 +12,8 @@
   "scripts": {
     "eslint": "eslint src/",
     "mocha": "mocha --compilers js:babel-core/register",
-    "pretest-browser": "browserify test/index.js -t babelify -o test/browser/tests-bundle.js",
     "test-browser": "testem",
-    "posttest-browser": "rm test/browser/tests-bundle.js",
+    "test-ci": "testem ci",
     "test": "npm run eslint && npm run mocha && npm run test-browser",
     "start": "npm install && npm prune && validate-commit-msg",
     "precompile": "rm -rf lib/ && mkdir -p lib",
@@ -64,7 +63,6 @@
     "eslint-plugin-cycle": "1.0.2",
     "eslint-plugin-no-class": "0.1.0",
     "mocha": "2.3.4",
-    "most": "0.16.0",
     "testem": "0.9.11",
     "validate-commit-message": "3.0.1"
   },

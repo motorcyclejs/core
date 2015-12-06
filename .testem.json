@@ -1,5 +1,5 @@
 {
-  "framework": "mocha+chai",
+  "framework": "mocha",
   "src_files": [
     "test/index.js"
   ],

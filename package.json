@@ -14,7 +14,7 @@
     "mocha": "mocha --compilers js:babel-core/register",
     "test-browser": "testem",
     "test-ci": "testem ci",
-    "test": "npm run eslint && npm run mocha && npm run test-browser",
+    "test": "npm run eslint && npm run mocha && npm run test-ci",
     "start": "npm install && npm prune && validate-commit-msg",
     "precompile": "rm -rf lib/ && mkdir -p lib",
     "compile": "babel -d lib/ src/",

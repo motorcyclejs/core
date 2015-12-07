@@ -17,7 +17,7 @@ This is **not** a fork of Cycle.js but a sister project that will continue to ev
 
 The primary focus of this project is to build on the wonderful ideas brought to us by André Medeiros, better known by @staltz, through Cycle.js and tune it for performance as much as possible.
 
- Most.js plays an incredibly huge part in that, as benchmarks place *Most* about 500 times faster than RxJS 4. *Most* is built with a very small core API compared to RxJS and is entirely modular and extensible. For more information on *Most*, please visit the github page [here](https://github.com/cujojs/most) and/or join us on gitter [here](https://gitter.im/cujojs/most).
+ Most.js plays an incredibly huge part in that, as benchmarks place *Most* about 200-400x times faster than RxJS 4. *Most* is built with a very small core API compared to RxJS and is entirely modular and extensible. For more information on *Most*, please visit the github page [here](https://github.com/cujojs/most) and/or join us on gitter [here](https://gitter.im/cujojs/most).
 
 The standard DOM Driver, [motorcycle-dom](https://github.com/motorcyclejs/motorcycle-dom), is built using [Snabbdom](https://github.com/paldepind/snabbdom), a more performant virtual DOM implementation than that used by Cycle-DOM. It continues to implement the same APIs, with better performing alternatives to come. Snabbdom eases many issues of using virtual DOM through life cycle hooks to continue to use existing libraries that work with the DOM directly. Snabbdom is also very modular and can be extended quite easily.
 
@@ -35,7 +35,7 @@ var run = require('@motorcycle-core').run
 
 Takes a main function and circularly connects it to the given collection of driver functions.
 
-The main function optionally takes a collection of "driver source" Observables/Streams or collections of methods that return Observables/Streams, as input, and should return a collection of "driver sink" Observables/Streams. A "collection of Observables/Streams" is a JavaScript object where keys match the driver names registered by the drivers object, and values are Observables/Streams or a collection of Observables/Streams.
+The main function takes an object of sources as input. Sources are the outputs from the various drivers. To complete the cycle, main should return a sinks object, which is a mapping of return values from the program to the drivers, i.e., inputs to the drivers, usually Observables/Streams.
 
 ###### Arguments:
 

@@ -27,9 +27,8 @@ const noop = () => {}
 
 const logErrorToConsole =
   err => {
-    const target = err.stack || err
     if (console && console.error) {
-      console.error(target)
+      console.error(err.message)
     }
   }
 

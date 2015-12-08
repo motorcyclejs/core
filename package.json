@@ -63,6 +63,7 @@
     "eslint-plugin-cycle": "1.0.2",
     "eslint-plugin-no-class": "0.1.0",
     "mocha": "2.3.4",
+    "sinon": "1.17.2",
     "testem": "0.9.11",
     "validate-commit-message": "3.0.1"
   },

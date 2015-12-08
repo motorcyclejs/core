@@ -1,7 +1,13 @@
 /* global describe, it */
 import assert from 'assert';
+import sinon from 'sinon';
 import { run } from '../src';
 import Most from 'most';
+
+const override =
+  (object, methodName, callback) => {
+    object[methodName] = callback(object[methodName])
+  }
 
 describe(`Cycle`, () => {
   describe("API", () => {
@@ -80,6 +86,32 @@ describe(`Cycle`, () => {
         assert.strictEqual(value, `Hello, world from Cycle!`)
         done();
       });
+    });
+
+    it(`should report errors from main() to the console`, done => {
+      const sandbox = sinon.sandbox.create();
+      sandbox.stub(console, `error`);
+
+      const main = sources => ({
+        other: sources.other.map(() => {
+          throw new Error('malfunction')
+        })
+      });
+
+      const driver = () => Most.just(`b`);
+
+      run(main, {other: driver});
+
+      setTimeout(() => {
+        sinon.assert.calledOnce(console.error);
+        const errorMessage =
+        sinon.assert.calledWithExactly(
+          console.error,
+          sinon.match('malfunction')
+        )
+        sandbox.restore();
+        done();
+      }, 10);
     });
   });
 });

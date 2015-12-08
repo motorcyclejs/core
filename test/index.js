@@ -1,5 +1,6 @@
 /* global describe, it */
 import assert from 'assert';
+import sinon from 'sinon';
 import { run } from '../src';
 import Most from 'most';
 
@@ -81,5 +82,30 @@ describe(`Cycle`, () => {
         done();
       });
     });
+
+    it(`should report errors from main() to the console`, done => {
+      const sandbox = sinon.sandbox.create();
+      sandbox.stub(console, `error`);
+
+      const main = sources => ({
+        other: sources.other.take(1).startWith('a').map(() => {
+          throw new Error('malfunction')
+        })
+      });
+
+      const driver = () => Most.just(`b`);
+
+      run(main, {other: driver})
+
+      setTimeout(() => {
+        sinon.assert.calledOnce(console.error);
+        sinon.assert.calledWithExactly(
+          console.error,
+          sinon.match("malfunction")
+        );
+        sandbox.restore();
+        done();
+      }, 10)
+    })
   });
 });

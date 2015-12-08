@@ -26,7 +26,12 @@ const callDrivers =
 const noop = () => {}
 
 const logErrorToConsole =
-  err => console.error(err.stack || err)
+  err => {
+    const target = err.stack || err
+    if (console && console.error) {
+      console.error(target)
+    }
+  }
 
 const replicateMany =
   (sinks, sinkProxies) =>

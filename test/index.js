@@ -4,6 +4,11 @@ import sinon from 'sinon';
 import { run } from '../src';
 import Most from 'most';
 
+const override =
+  (object, methodName, callback) => {
+    object[methodName] = callback(object[methodName])
+  }
+
 describe(`Cycle`, () => {
   describe("API", () => {
     it(`should have 'run'`, done => {
@@ -88,7 +93,7 @@ describe(`Cycle`, () => {
       sandbox.stub(console, `error`);
 
       const main = sources => ({
-        other: sources.other.take(1).startWith('a').map(() => {
+        other: sources.other.map(() => {
           throw new Error('malfunction')
         })
       });
@@ -99,10 +104,11 @@ describe(`Cycle`, () => {
 
       setTimeout(() => {
         sinon.assert.calledOnce(console.error);
+        const errorMessage =
         sinon.assert.calledWithExactly(
           console.error,
-          sinon.match("malfunction")
-        );
+          sinon.match('malfunction')
+        )
         sandbox.restore();
         done();
       }, 10);

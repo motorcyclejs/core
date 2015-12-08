@@ -23,6 +23,11 @@ const callDrivers =
     return sources
   }
 
+const noop = () => {}
+
+const logErrorToConsole =
+  err => console.error(err.stack || err)
+
 const replicateMany =
   (sinks, sinkProxies) =>
     setTimeout(
@@ -31,7 +36,10 @@ const replicateMany =
           if (sinks.hasOwnProperty(name) &&
           sinkProxies.hasOwnProperty(name))
           {
-            sinks[name].forEach(sinkProxies[name].sink.add)
+            sinks[name]
+              .forEach(sinkProxies[name].sink.add)
+              .then(noop)
+              .catch(logErrorToConsole)
           }
         }
       }

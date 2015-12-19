@@ -9,7 +9,7 @@ const override =
     object[methodName] = callback(object[methodName])
   }
 
-describe(`Cycle`, () => {
+describe(`Motorcycle`, () => {
   describe("API", () => {
     it(`should have 'run'`, done => {
       assert.strictEqual(typeof run, `function`);
@@ -21,21 +21,21 @@ describe(`Cycle`, () => {
     it(`should throw if the first argument is not a function`, done => {
       assert.throws(() => {
         run(`not a function`);
-      }, /First argument given to Cycle\.run\(\) must be the 'main' function/i);
+      }, /First argument given to run\(\) must be the 'main' function/i);
       done();
     });
 
     it(`should throw if the second argument is not an Object`, done => {
       assert.throws(() => {
-        run(() => {}, `not an object`);
-      });
+        run(() => {}, `not an object`)
+      }, /Second argument given to run\(\) must be an object with driver functions as properties/i);
       done();
     })
 
     it(`should throw if second argument is an empty object`, done => {
       assert.throws(() => {
         run(() => {}, {});
-      }, /Second argument given to Cycle\.run\(\) must be an object with at least one/i)
+      }, /Second argument given to run\(\) must be an object with at least one/i)
       done();
     });
 
@@ -54,9 +54,27 @@ describe(`Cycle`, () => {
       assert.notStrictEqual(typeof sources.other, 'undefined');
       assert.notStrictEqual(sources.other, null);
       assert.strictEqual(typeof sources.other.observe, 'function');
-
       done();
     });
+
+    it('should happen on event loop\'s next tick', done => {
+      const app = () => ({
+        other: Most.from([10, 20, 30])
+      })
+
+      let mutable = 'wrong'
+
+      const driver = sink => sink.map(x => 'a' + 10)
+
+      const {sources} = run(app, {other: driver})
+
+      sources.other.take(1).observe(x => {
+        assert.strictEqual(x, 'a10')
+        assert.strictEqual(mutable, 'correct')
+        done()
+      })
+      mutable = 'correct'
+    })
 
     it(`should run a simple application`, done => {
       const app = sources => ({
@@ -75,7 +93,7 @@ describe(`Cycle`, () => {
         return driver;
       }
 
-      const {sinks, sources} = run(app, {
+      const {sources} = run(app, {
         Handshake: makeDriver({
           greeting: 'Hello',
           name: 'Cycle'
@@ -87,6 +105,42 @@ describe(`Cycle`, () => {
         done();
       });
     });
+
+    it('should not work after sources are disposed', done => {
+      const number$ = Most.from([1, 2, 3])
+
+      const app = () => ({other: number$})
+
+      const {sources, dispose} = run(app, {
+        other: number$ => number$.map(number => 'x' + number)
+      })
+
+      sources.other.observe(x => {
+        assert.notStrictEqual(x, 'x3')
+        if (x === 'x2') {
+          dispose()
+          setTimeout(done, 100)
+        }
+      })
+    })
+
+    it('should not work after sinks are disposed', done => {
+      const number$ = Most.from([1, 2, 3])
+
+      const app = () => ({other: number$})
+
+      const {sinks, dispose} = run(app, {
+        other: number$ => number$.map(number => 'x' + number)
+      })
+
+      sinks.other.observe(x => {
+        assert.notStrictEqual(x, 3)
+        if (x === 2) {
+          dispose()
+          setTimeout(done, 100)
+        }
+      })
+    })
 
     it(`should report errors from main() to the console`, done => {
       const sandbox = sinon.sandbox.create();

@@ -142,6 +142,22 @@ describe(`Motorcycle`, () => {
       })
     })
 
+    it(`should work with drivers that don't return a stream`, done => {
+      const number$ = Most.from([1, 2, 3])
+
+      const app = () => ({number: number$})
+
+      const {dispose} = run(app, {
+        number: () => 1,
+        object: () => ({}),
+        array: () => [],
+        boolean: () => true
+      })
+
+      dispose()
+      done()
+    })
+
     it(`should report errors from main() to the console`, done => {
       const sandbox = sinon.sandbox.create();
       sandbox.stub(console, `error`);

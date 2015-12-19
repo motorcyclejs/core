@@ -11,9 +11,13 @@ const makeSinkProxies = drivers =>
 const callDrivers = (drivers, sinkProxies, disposableStream) =>
   Object.keys(drivers)
     .reduce((sources, driverName) => {
-      sources[driverName] =
+      const source =
         drivers[driverName](hold(sinkProxies[driverName].stream), driverName)
-          .until(disposableStream)
+
+      sources[driverName] = typeof source.until === `function` ?
+          source.until(disposableStream) :
+          source
+
       return sources
     }, {})
 

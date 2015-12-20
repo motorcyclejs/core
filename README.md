@@ -81,8 +81,14 @@ and values are driver functions.
 
 ###### Return:
 
-(Object) an object containing *sources* and *sinks* that
+(Object) an object containing *sources*, *sinks*, and *dispose()* that
 can be used for debugging or testing.
+
+  *sources :: Object<most.Stream>* - The collection that is passed to your main function. The output of the drivers passed to run()
+
+  *sinks :: Object<most.Stream>* - The collection that is returned from your main function. The input to the drivers.
+
+  *dispose :: Function* - A function that will dispose of streams from sinks and sources.
 
 
 

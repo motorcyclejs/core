@@ -39,6 +39,7 @@ const logErrorToConsole = err => {
 const replicateMany = (sinks, sinkProxies) =>
   setTimeout(() => {
     Object.keys(sinks)
+      .filter(driverName => sinkProxies[driverName])
       .forEach(driverName => {
         sinks[driverName]
           .forEach(sinkProxies[driverName].sink.add)

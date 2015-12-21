@@ -1,72 +1,82 @@
-import Subject from './subject'
+import subject from 'most-subject'
+import hold from '@most/hold'
 
-const makeSinkProxies =
-  drivers => {
-    let sinkProxies = {}
-    for (let name in drivers) {
-      if (drivers.hasOwnProperty(name)) {
-        sinkProxies[name] = Subject()
-      }
-    }
-    return sinkProxies
+const makeSinkProxies = drivers =>
+  Object.keys(drivers)
+    .reduce((sinkProxies, driverName) => {
+      sinkProxies[driverName] = subject()
+      return sinkProxies
+    }, {})
+
+const callDrivers = (drivers, sinkProxies, disposableStream) =>
+  Object.keys(drivers)
+    .reduce((sources, driverName) => {
+      const source =
+        drivers[driverName](hold(sinkProxies[driverName].stream), driverName)
+
+      sources[driverName] = typeof source.until === `function` ?
+          source.until(disposableStream) :
+          source
+
+      return sources
+    }, {})
+
+const runMain = (main, sources, disposableStream) => {
+  const sinks = main(sources)
+  return Object.keys(sinks)
+    .reduce((accumulator, driverName) => {
+      accumulator[driverName] = sinks[driverName].until(disposableStream)
+      return accumulator
+    }, {})
+}
+
+const logErrorToConsole = err => {
+  if (console && console.error) {
+    console.error(err.message)
+  }
+}
+
+const replicateMany = (sinks, sinkProxies) =>
+  setTimeout(() => {
+    Object.keys(sinks)
+      .filter(driverName => sinkProxies[driverName])
+      .forEach(driverName => {
+        sinks[driverName]
+          .forEach(sinkProxies[driverName].sink.add)
+          .then(sinkProxies[driverName].sink.end)
+          .catch(logErrorToConsole)
+      })
+  }, 1)
+
+const isObjectEmpty = object => Object.keys(object).length <= 0
+
+const run = (main, drivers) => {
+  if (typeof main !== `function`) {
+    throw new Error(`First argument given to run() must be the ` +
+      `'main' function.`)
+  }
+  if (typeof drivers !== `object` || drivers === null) {
+    throw new Error(`Second argument given to run() must be an ` +
+      `object with driver functions as properties.`)
+  }
+  if (isObjectEmpty(drivers)) {
+    throw new Error(`Second argument given to run() must be an ` +
+      `object with at least one driver function declared as a property.`)
+  }
+  const {sink: disposableSink, stream: disposableStream} = subject()
+  const sinkProxies = makeSinkProxies(drivers, disposableStream)
+  const sources = callDrivers(drivers, sinkProxies, disposableStream)
+  const sinks = runMain(main, sources, disposableStream)
+  replicateMany(sinks, sinkProxies)
+
+  const dispose = () => {
+    disposableSink.add(1)
+    Object.keys(sinkProxies).forEach(key => sinkProxies[key].sink.end())
+    disposableSink.end()
   }
 
-const callDrivers =
-  (drivers, sinkProxies) => {
-    let sources = {}
-    for (let name in drivers) {
-      if (drivers.hasOwnProperty(name)) {
-        sources[name] = drivers[name](sinkProxies[name], name)
-      }
-    }
-    return sources
-  }
+  return {sinks, sources, dispose}
+}
 
-const replicateMany =
-  (sinks, sinkProxies) =>
-    setTimeout(
-      () => {
-        for (let name in sinks) {
-          if (sinks.hasOwnProperty(name) &&
-          sinkProxies.hasOwnProperty(name))
-          {
-            sinks[name].forEach(sinkProxies[name].push)
-          }
-        }
-      }
-      , 1
-    )
-
-const isObjectEmpty =
-  obj => {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        return false
-      }
-    }
-    return true
-  }
-
-const run =
-  (main, drivers) => {
-    if (typeof main !== `function`) {
-      throw new Error(`First argument given to Cycle.run() must be the ` +
-        `'main' function.`)
-    }
-    if (typeof drivers !== `object` || drivers === null) {
-      throw new Error(`Second argument given to Cycle.run() must be an  ` +
-        `object with driver functions as properties.`)
-    }
-    if (isObjectEmpty(drivers)) {
-      throw new Error(`Second argument given to Cycle.run() must be an ` +
-        `object with at least one driver function declared as a property.`)
-    }
-
-    let sinkProxies = makeSinkProxies(drivers)
-    let sources = callDrivers(drivers, sinkProxies)
-    let sinks = main(sources)
-    replicateMany(sinks, sinkProxies)
-    return {sinks, sources}
-  }
-
+export default {run}
 export {run}

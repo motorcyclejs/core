@@ -8,16 +8,11 @@ const makeSinkProxies = drivers =>
       return sinkProxies
     }, {})
 
-const callDrivers = (drivers, sinkProxies, disposableStream) =>
+const callDrivers = (drivers, sinkProxies) =>
   Object.keys(drivers)
     .reduce((sources, driverName) => {
-      const source =
+      sources[driverName] =
         drivers[driverName](hold(sinkProxies[driverName].stream), driverName)
-
-      sources[driverName] = typeof source.until === `function` ?
-          source.until(disposableStream) :
-          source
-
       return sources
     }, {})
 
@@ -65,7 +60,7 @@ const run = (main, drivers) => {
   }
   const {sink: disposableSink, stream: disposableStream} = subject()
   const sinkProxies = makeSinkProxies(drivers, disposableStream)
-  const sources = callDrivers(drivers, sinkProxies, disposableStream)
+  const sources = callDrivers(drivers, sinkProxies)
   const sinks = runMain(main, sources, disposableStream)
   replicateMany(sinks, sinkProxies)
 

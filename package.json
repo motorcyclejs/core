@@ -1,6 +1,6 @@
 {
   "name": "@motorcycle/core",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Cycle.js with most.js reactive library instead of RxJS.",
   "main": "lib/index.js",
   "directories": {

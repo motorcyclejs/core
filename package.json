@@ -69,8 +69,8 @@
     "validate-commit-message": "3.0.1"
   },
   "dependencies": {
-    "@most/hold": "1.0.0",
+    "@most/hold": "1.1.0",
     "most": "0.18.0",
-    "most-subject": "2.0.1"
+    "most-subject": "2.1.0"
   }
 }

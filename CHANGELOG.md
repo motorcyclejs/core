@@ -1,3 +1,13 @@
+# v1.1.0 (2016-02-07)
+
+
+## Bug Fixes
+
+- revert breaking change related to drivers
+  ([f110f0a3](https://github.com/motorcyclejs/core/commits/f110f0a3a35e7824c2850f7cd9bc7f31d24b912f),
+   [#35]([object Object]/35))
+
+
 # v1.0.0 (2015-12-30)
 
 

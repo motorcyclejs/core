@@ -1,10 +1,9 @@
-import subject from 'most-subject'
-import hold from '@most/hold'
+import {subject, holdSubject} from 'most-subject'
 
 const makeSinkProxies = drivers =>
   Object.keys(drivers)
     .reduce((sinkProxies, driverName) => {
-      sinkProxies[driverName] = subject()
+      sinkProxies[driverName] = holdSubject()
       return sinkProxies
     }, {})
 
@@ -12,7 +11,7 @@ const callDrivers = (drivers, sinkProxies) =>
   Object.keys(drivers)
     .reduce((sources, driverName) => {
       sources[driverName] =
-        drivers[driverName](hold(sinkProxies[driverName].stream), driverName)
+        drivers[driverName](sinkProxies[driverName].stream, driverName)
       return sources
     }, {})
 

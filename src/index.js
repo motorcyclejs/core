@@ -15,8 +15,20 @@ const callDrivers = (drivers, sinkProxies) =>
       return sources
     }, {})
 
+const assertSinks = sinks => {
+  Object.keys(sinks).forEach(key => {
+    if (!sinks[key]) {
+      throw new Error(`Sink \`${key}\` is not a Stream`)
+    }
+  })
+
+  return sinks
+}
+
 const runMain = (main, sources, disposableStream) => {
   const sinks = main(sources)
+  assertSinks(sinks)
+
   return Object.keys(sinks)
     .reduce((accumulator, driverName) => {
       accumulator[driverName] = sinks[driverName].until(disposableStream)

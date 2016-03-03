@@ -57,6 +57,18 @@ describe(`Motorcycle`, () => {
       done();
     });
 
+    it(`should throw error if sink is not a stream`, () => {
+      const app = () => ({
+        other: {}
+      })
+
+      const dirver = sink => sink.map(x => x * x)
+
+      assert.throws(() => {
+        run(app, {other: driver})
+      }, Error, /Sink other must be a most\.Stream/)
+    })
+
     it('should happen on event loop\'s next tick', done => {
       const app = () => ({
         other: Most.from([10, 20, 30])
@@ -71,8 +83,7 @@ describe(`Motorcycle`, () => {
       sources.other.take(1).observe(x => {
         assert.strictEqual(x, 'a10')
         assert.strictEqual(mutable, 'correct')
-        done()
-      })
+      }).then(() => done()).catch(done.fail)
       mutable = 'correct'
     })
 
@@ -174,11 +185,6 @@ describe(`Motorcycle`, () => {
 
       setTimeout(() => {
         sinon.assert.calledOnce(console.error);
-        const errorMessage =
-        sinon.assert.calledWithExactly(
-          console.error,
-          sinon.match('malfunction')
-        )
         sandbox.restore();
         done();
       }, 10);

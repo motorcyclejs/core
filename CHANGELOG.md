@@ -1,3 +1,18 @@
+# v1.2.0 (2016-03-09)
+
+
+## Bug Fixes
+
+- fix typo
+  ([fb75953e](https://github.com/motorcyclejs/core/commits/fb75953ec365f71cb623b38d27e55edf60cb3eaf))
+
+
+## Features
+
+- add optional onError function and assertSinks function
+  ([f942712d](https://github.com/motorcyclejs/core/commits/f942712dfe9d44e672e29e692f719a3958d3c2d1))
+
+
 # v1.1.0 (2016-02-07)
 
 

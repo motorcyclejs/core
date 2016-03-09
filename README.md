@@ -79,6 +79,10 @@ and outputs a collection of sinks Observables/Streams.
 **drivers** :: Object - an object where keys are driver names
 and values are driver functions.
 
+**{onError}** :: Object - an object which currently only accepts an `onError()`
+function. The optional `onError()` function allows for defining a custom Function
+to be called when an error occurs in a stream from your application.
+
 ###### Return:
 
 (Object) an object containing *sources*, *sinks*, and *dispose()* that

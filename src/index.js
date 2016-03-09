@@ -55,7 +55,7 @@ const logErrorToConsole = typeof console !== `undefined` && console.error ?
   error => { console.error(error.stack || error) } : Function.prototype
 
 const defaults = {
-  onEror: logErrorToConsole,
+  onError: logErrorToConsole,
 }
 
 function runInputGuard({main, drivers, onError}) {

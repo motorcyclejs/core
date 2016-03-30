@@ -1,6 +1,6 @@
 {
   "name": "@motorcycle/core",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Cycle.js with most.js reactive library instead of RxJS.",
   "main": "lib/index.js",
   "directories": {
@@ -16,9 +16,9 @@
     "test-ci": "testem ci",
     "test": "npm run eslint && npm run mocha && npm run test-ci",
     "start": "npm install && npm prune && validate-commit-msg",
-    "precompile": "rm -rf lib/ && mkdir -p lib",
+    "precompile": "rimraf lib && mkdirp lib",
     "compile": "babel -d lib/ src/",
-    "predist": "rm -rf dist/ && mkdir -p dist/",
+    "predist": "rimraf dist && mkdirp dist",
     "dist": "browserify -t babelify src/index.js --standalone Motorcyle --exclude most -o dist/motorcycle.js",
     "postdist": "uglifyjs dist/motorcycle.js -o dist/motorcycle.min.js",
     "prepublish": "npm run compile && npm run dist",
@@ -62,15 +62,17 @@
     "eslint-config-cycle": "3.2.0",
     "eslint-plugin-cycle": "1.0.2",
     "eslint-plugin-no-class": "0.1.0",
+    "mkdirp": "^0.5.1",
     "mocha": "2.4.5",
+    "rimraf": "^2.5.2",
     "sinon": "1.17.3",
     "testem": "0.9.11",
     "uglifyjs": "2.4.10",
     "validate-commit-message": "3.0.1"
   },
   "dependencies": {
-    "@most/hold": "1.1.0",
-    "most": "0.18.0",
-    "most-subject": "3.0.0"
+    "@most/hold": "^1.1.1",
+    "most": "^0.18.7",
+    "most-subject": "^3.0.2"
   }
 }

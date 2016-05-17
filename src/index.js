@@ -14,14 +14,14 @@ function callDrivers(drivers, sinkProxies) {
   const keys = Object.keys(drivers)
   for (let i = 0; i < keys.length; i++) {
     let name = keys[i]
-    sources[name] = drivers[name](sinkProxies[name].stream, name)
+    sources[name] = drivers[name](sinkProxies[name], name)
   }
   return sources
 }
 
-function makeHandleError(observer, onError) {
+function makeHandleError(stream, onError) {
   return function handleError(err) {
-    observer.error(err)
+    stream.error(err)
     onError(err)
   }
 }
@@ -31,12 +31,12 @@ function replicateMany({sinks, sinkProxies, disposableStream, onError}) {
   for (let i = 0; i < sinkKeys.length; i++) {
     let name = sinkKeys[i]
     if (sinkProxies.hasOwnProperty(name)) {
-      let {observer} = sinkProxies[name]
+      const stream = sinkProxies[name]
       sinks[name]
         .until(disposableStream)
-        .observe(observer.next)
-        .then(observer.complete)
-        .catch(makeHandleError(observer, onError))
+        .observe(x => stream.next(x))
+        .then(x => stream.complete(x))
+        .catch(makeHandleError(stream, onError))
     }
   }
 }
@@ -79,15 +79,15 @@ function runInputGuard({main, drivers, onError}) {
 
 function run(main, drivers, {onError = logErrorToConsole} = defaults) {
   runInputGuard({main, drivers, onError})
-  const {observer: disposableObserver, stream: disposableStream} = subject()
+  const disposableStream = subject()
   const sinkProxies = makeSinkProxies(drivers)
   const sources = callDrivers(drivers, sinkProxies)
   const sinks = assertSinks(main(sources))
   replicateMany({sinks, sinkProxies, disposableStream, onError})
 
   function dispose() {
-    disposableObserver.next(1)
-    disposableObserver.complete()
+    disposableStream.next(1)
+    disposableStream.complete()
   }
 
   return {sinks, sources, dispose}

@@ -1,4 +1,328 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Motorcyle = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Motorcycle = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('most'), require('most/lib/scheduler/defaultScheduler'), require('@most/multicast'), require('@most/prelude')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'most', 'most/lib/scheduler/defaultScheduler', '@most/multicast', '@most/prelude'], factory) :
+  (factory((global.mostSubject = global.mostSubject || {}),global.most,global.most.defaultScheduler,global.mostMulticast,global.mostPrelude));
+}(this, function (exports,most,defaultScheduler,_most_multicast,_most_prelude) { 'use strict';
+
+  defaultScheduler = 'default' in defaultScheduler ? defaultScheduler['default'] : defaultScheduler;
+
+  var babelHelpers = {};
+
+  babelHelpers.classCallCheck = function (instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+
+  babelHelpers.createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  babelHelpers.get = function get(object, property, receiver) {
+    if (object === null) object = Function.prototype;
+    var desc = Object.getOwnPropertyDescriptor(object, property);
+
+    if (desc === undefined) {
+      var parent = Object.getPrototypeOf(object);
+
+      if (parent === null) {
+        return undefined;
+      } else {
+        return get(parent, property, receiver);
+      }
+    } else if ("value" in desc) {
+      return desc.value;
+    } else {
+      var getter = desc.get;
+
+      if (getter === undefined) {
+        return undefined;
+      }
+
+      return getter.call(receiver);
+    }
+  };
+
+  babelHelpers.inherits = function (subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  };
+
+  babelHelpers.possibleConstructorReturn = function (self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  };
+
+  babelHelpers;
+
+  /** The base Subject class, which is an extension of Stream
+   * @typedef {Object} Subject
+   */
+  var Subject = function (_Stream) {
+    babelHelpers.inherits(Subject, _Stream);
+
+    function Subject() {
+      babelHelpers.classCallCheck(this, Subject);
+      return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Subject).apply(this, arguments));
+    }
+
+    babelHelpers.createClass(Subject, [{
+      key: 'next',
+
+      /**
+       * Push a new value to the stream
+       *
+       * @method next
+       *
+       * @param  {any}   value The value you want to push to the stream
+       */
+      value: function next(value) {
+        this.source.next(value);
+      }
+
+      /**
+       * Push an error and end the stream
+       *
+       * @method error
+       *
+       * @param  {Error} err The error you would like to push to the stream
+       */
+
+    }, {
+      key: 'error',
+      value: function error(err) {
+        this.source.error(err);
+      }
+
+      /**
+       * Ends the stream with an optional value
+       *
+       * @method complete
+       *
+       * @param  {any} value The value you would like to end the stream on
+       */
+
+    }, {
+      key: 'complete',
+      value: function complete(value) {
+        this.source.complete(value);
+      }
+    }]);
+    return Subject;
+  }(most.Stream);
+
+  function SubjectSource() {
+    this.scheduler = defaultScheduler;
+    this.sinks = [];
+    this.active = true;
+  }
+
+  // Source methods
+  SubjectSource.prototype.run = function (sink, scheduler) {
+    var n = this.add(sink);
+    if (n === 1) {
+      this.scheduler = scheduler;
+    }
+    return new SubjectDisposable(this, sink);
+  };
+
+  SubjectSource.prototype._dispose = function dispose() {
+    this.active = false;
+  };
+
+  // Subject methods
+  SubjectSource.prototype.next = function next(value) {
+    if (!this.active) {
+      return;
+    }
+    this._next(this.scheduler.now(), value);
+  };
+
+  SubjectSource.prototype.error = function error(err) {
+    if (!this.active) {
+      return;
+    }
+
+    this.active = false;
+    this._error(this.scheduler.now(), err);
+  };
+
+  SubjectSource.prototype.complete = function complete(value) {
+    if (!this.active) {
+      return;
+    }
+
+    this.active = false;
+    this._complete(this.scheduler.now(), value, this.sink);
+  };
+
+  // Multicasting methods
+  SubjectSource.prototype.add = _most_multicast.MulticastSource.prototype.add;
+  SubjectSource.prototype.remove = _most_multicast.MulticastSource.prototype.remove;
+  SubjectSource.prototype._next = _most_multicast.MulticastSource.prototype.event;
+  SubjectSource.prototype._complete = _most_multicast.MulticastSource.prototype.end;
+  SubjectSource.prototype._error = _most_multicast.MulticastSource.prototype.error;
+
+  // SubjectDisposable
+  function SubjectDisposable(source, sink) {
+    this.source = source;
+    this.sink = sink;
+    this.disposed = false;
+  }
+
+  SubjectDisposable.prototype.dispose = function () {
+    if (this.disposed) {
+      return;
+    }
+    this.disposed = true;
+    var remaining = this.source.remove(this.sink);
+    return remaining === 0 && this.source._dispose();
+  };
+
+  // flow-ignore-next-line: I want to extend another class
+  var HoldSubjectSource = function (_SubjectSource) {
+    babelHelpers.inherits(HoldSubjectSource, _SubjectSource);
+
+    function HoldSubjectSource(bufferSize) {
+      babelHelpers.classCallCheck(this, HoldSubjectSource);
+
+      var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(HoldSubjectSource).call(this));
+
+      _this.bufferSize = bufferSize;
+      _this.buffer = [];
+      return _this;
+    }
+
+    babelHelpers.createClass(HoldSubjectSource, [{
+      key: 'add',
+      value: function add(sink) {
+        var buffer = this.buffer;
+        if (buffer.length > 0) {
+          pushEvents(buffer, sink);
+        }
+        babelHelpers.get(Object.getPrototypeOf(HoldSubjectSource.prototype), 'add', this).call(this, sink);
+      }
+    }, {
+      key: 'next',
+      value: function next(value) {
+        if (!this.active) {
+          return;
+        }
+        var time = this.scheduler.now();
+        this.buffer = dropAndAppend({ time: time, value: value }, this.buffer, this.bufferSize);
+        this._next(time, value);
+      }
+    }]);
+    return HoldSubjectSource;
+  }(SubjectSource);
+
+  function pushEvents(buffer, sink) {
+    for (var i = 0; i < buffer.length; ++i) {
+      var _buffer$i = buffer[i];
+      var time = _buffer$i.time;
+      var value = _buffer$i.value;
+
+      sink.event(time, value);
+    }
+  }
+
+  function dropAndAppend(event, buffer, bufferSize) {
+    if (buffer.length >= bufferSize) {
+      return _most_prelude.append(event, _most_prelude.drop(1, buffer));
+    }
+    return _most_prelude.append(event, buffer);
+  }
+
+  /**
+   * Creates a new Subject
+   *
+   * @return {Subject} {@link Subject}
+   *
+   * @example
+   * import {subject} from 'most-subject'
+   *
+   * const stream = subject()
+   *
+   * stream.map(fn).observe(x => console.log(x))
+   * // 1
+   * // 2
+   *
+   * stream.next(1)
+   * stream.next(2)
+   * setTimeout(() => stream.complete(), 10)
+   */
+  function subject() {
+    return new Subject(new SubjectSource());
+  }
+
+  /**
+   * Create a subject with a buffer to keep from missing events.
+   *
+   * @param  {number}    bufferSize =             1 The maximum size of the
+   * buffer to create.
+   *
+   * @return {Subject} {@link Subject}
+   *
+   * @example
+   * import {holdSubject} from 'most-subject'
+   *
+   * const stream = holdSubject(3)
+   *
+   * stream.next(1)
+   * stream.next(2)
+   * stream.next(3)
+   *
+   * stream.map(fn).observe(x => console.log(x))
+   * // 1
+   * // 2
+   * // 3
+   *
+   * setTimeout(() => stream.complete(), 10)
+   */
+  function holdSubject() {
+    var bufferSize = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+    if (bufferSize <= 0) {
+      throw new Error('First and only argument to holdSubject `bufferSize` ' + 'must be an integer 1 or greater');
+    }
+    return new Subject(new HoldSubjectSource(bufferSize));
+  }
+
+  exports.subject = subject;
+  exports.holdSubject = holdSubject;
+
+}));
+
+},{"@most/multicast":2,"@most/prelude":3,"most":undefined,"most/lib/scheduler/defaultScheduler":6}],2:[function(require,module,exports){
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define('@most/multicast', ['exports', '@most/prelude'], factory);
@@ -49,14 +373,18 @@
 
       this.source = source;
       this.sink = sink;
+      this.disposed = false;
     }
 
     _createClass(MulticastDisposable, [{
       key: 'dispose',
       value: function dispose() {
-        var s = this.source;
-        var remaining = s.remove(this.sink);
-        return remaining === 0 && s._dispose();
+        if (this.disposed) {
+          return;
+        }
+        this.disposed = true;
+        var remaining = this.source.remove(this.sink);
+        return remaining === 0 && this.source._dispose();
       }
     }]);
 
@@ -100,18 +428,16 @@
       key: 'run',
       value: function run(sink, scheduler) {
         var n = this.add(sink);
-
         if (n === 1) {
           this._disposable = this.source.run(this, scheduler);
         }
-
         return new MulticastDisposable(this, sink);
       }
     }, {
       key: '_dispose',
       value: function _dispose() {
         var disposable = this._disposable;
-        this._disposable = void 0;
+        this._disposable = emptyDisposable;
         return Promise.resolve(disposable).then(dispose);
       }
     }, {
@@ -123,19 +449,21 @@
     }, {
       key: 'remove',
       value: function remove(sink) {
-        this.sinks = (0, _prelude.remove)((0, _prelude.findIndex)(sink, this.sinks), this.sinks);
+        var i = (0, _prelude.findIndex)(sink, this.sinks);
+        // istanbul ignore next
+        if (i >= 0) {
+          this.sinks = (0, _prelude.remove)(i, this.sinks);
+        }
+
         return this.sinks.length;
       }
     }, {
       key: 'event',
       value: function event(time, value) {
         var s = this.sinks;
-
         if (s.length === 1) {
-          tryEvent(time, value, s[0]);
-          return;
+          return s[0].event(time, value);
         }
-
         for (var i = 0; i < s.length; ++i) {
           tryEvent(time, value, s[i]);
         }
@@ -144,12 +472,6 @@
       key: 'end',
       value: function end(time, value) {
         var s = this.sinks;
-
-        if (s.length === 1) {
-          tryEnd(time, value, s[0]);
-          return;
-        }
-
         for (var i = 0; i < s.length; ++i) {
           tryEnd(time, value, s[i]);
         }
@@ -158,12 +480,6 @@
       key: 'error',
       value: function error(time, err) {
         var s = this.sinks;
-
-        if (s.length === 1) {
-          s[0].error(time, err);
-          return;
-        }
-
         for (var i = 0; i < s.length; ++i) {
           s[i].error(time, err);
         }
@@ -182,7 +498,7 @@
   exports.default = multicast;
 });
 
-},{"@most/prelude":2}],2:[function(require,module,exports){
+},{"@most/prelude":3}],3:[function(require,module,exports){
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define('@most/prelude', ['exports'], factory);
@@ -463,220 +779,427 @@
   exports.curry3 = curry3;
 });
 
-},{}],3:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function tryEvent(sink, scheduler, event) {
-  try {
-    sink.event(scheduler.now(), event);
-  } catch (err) {
-    sink.error(scheduler.now(), err);
-  }
-}
-
-function tryEnd(sink, scheduler, event) {
-  try {
-    sink.end(scheduler.now(), event);
-  } catch (err) {
-    sink.error(scheduler.now(), err);
-  }
-}
-
-var Observer = function () {
-  function Observer() {
-    var _this = this;
-
-    _classCallCheck(this, Observer);
-
-    this.run = function (sink, scheduler) {
-      return _this._run(sink, scheduler);
-    };
-    this.next = function (x) {
-      return _this._next(x);
-    };
-    this.error = function (err) {
-      return _this._error(err);
-    };
-    this.complete = function (x) {
-      return _this._complete(x);
-    };
-  }
-
-  _createClass(Observer, [{
-    key: "_run",
-    value: function _run(sink, scheduler) {
-      this.sink = sink;
-      this.scheduler = scheduler;
-      this.active = true;
-      return this;
-    }
-  }, {
-    key: "dispose",
-    value: function dispose() {
-      this.active = false;
-    }
-  }, {
-    key: "_next",
-    value: function _next(value) {
-      if (!this.active) {
-        return;
-      }
-      tryEvent(this.sink, this.scheduler, value);
-    }
-  }, {
-    key: "_error",
-    value: function _error(err) {
-      this.active = false;
-      this.sink.error(this.scheduler.now(), err);
-    }
-  }, {
-    key: "_complete",
-    value: function _complete(value) {
-      if (!this.active) {
-        return;
-      }
-      this.active = false;
-      tryEnd(this.sink, this.scheduler, value);
-    }
-  }]);
-
-  return Observer;
-}();
-
-exports.Observer = Observer;
 },{}],4:[function(require,module,exports){
-'use strict';
+/** @license MIT License (c) copyright 2010-2016 original author or authors */
+/** @author Brian Cavalier */
+/** @author John Hann */
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.replay = undefined;
+module.exports = defer;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _most = require('most');
-
-var _multicast = require('@most/multicast');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function pushEvents(sink, buffer) {
-  var i = 0;
-  for (; i < buffer.length; ++i) {
-    var item = buffer[i];
-    sink.event(item.time, item.value);
-  }
+function defer(task) {
+	return Promise.resolve(task).then(runTask);
 }
 
-function replayAdd(sink) {
-  var length = this._replayAdd(sink);
-  if (this._replay.buffer.length > 0) {
-    pushEvents(sink, this._replay.buffer);
-  }
-  return length;
+function runTask(task) {
+	try {
+		return task.run();
+	} catch(e) {
+		return task.error(e);
+	}
 }
 
-function addToBuffer(event, replay) {
-  if (replay.buffer.length >= replay.bufferSize) {
-    replay.buffer.shift();
-  }
-  replay.buffer.push(event);
+},{}],5:[function(require,module,exports){
+/** @license MIT License (c) copyright 2010-2016 original author or authors */
+/** @author Brian Cavalier */
+/** @author John Hann */
+
+var base = require('@most/prelude');
+
+module.exports = Scheduler;
+
+function ScheduledTask(delay, period, task, scheduler) {
+	this.time = delay;
+	this.period = period;
+	this.task = task;
+	this.scheduler = scheduler;
+	this.active = true;
 }
 
-function replayEvent(time, value) {
-  if (this._replay.bufferSize > 0) {
-    addToBuffer({ time: time, value: value }, this._replay);
-  }
-  this._replayEvent(time, value);
-}
-
-var Replay = function () {
-  function Replay(bufferSize, source) {
-    _classCallCheck(this, Replay);
-
-    this.source = source;
-    this.bufferSize = bufferSize;
-    this.buffer = [];
-  }
-
-  _createClass(Replay, [{
-    key: 'run',
-    value: function run(sink, scheduler) {
-      if (sink._replay !== this) {
-        sink._replay = this;
-        sink._replayAdd = sink.add;
-        sink.add = replayAdd;
-
-        sink._replayEvent = sink.event;
-        sink.event = replayEvent;
-      }
-
-      return this.source.run(sink, scheduler);
-    }
-  }]);
-
-  return Replay;
-}();
-
-var replay = function replay(bufferSize, stream) {
-  return new _most.Stream(new _multicast.MulticastSource(new Replay(bufferSize, stream.source)));
+ScheduledTask.prototype.run = function() {
+	return this.task.run(this.time);
 };
 
-exports.replay = replay;
-},{"@most/multicast":1,"most":undefined}],5:[function(require,module,exports){
-'use strict';
+ScheduledTask.prototype.error = function(e) {
+	return this.task.error(this.time, e);
+};
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.holdSubject = exports.subject = undefined;
+ScheduledTask.prototype.dispose = function() {
+	this.scheduler.cancel(this);
+	return this.task.dispose();
+};
 
-var _most = require('most');
-
-var _multicast = require('@most/multicast');
-
-var _Observer = require('./Observer');
-
-var _Replay = require('./Replay');
-
-function create(hold, bufferSize, initialValue) {
-  var observer = new _Observer.Observer();
-  var stream = hold ? (0, _Replay.replay)(bufferSize, new _most.Stream(observer)) : new _most.Stream(new _multicast.MulticastSource(observer));
-
-  stream.drain();
-
-  if (typeof initialValue !== 'undefined') {
-    observer.next(initialValue);
-  }
-
-  return { stream: stream, observer: observer };
+function runTask(task) {
+	try {
+		return task.run();
+	} catch(e) {
+		return task.error(e);
+	}
 }
 
-function subject() {
-  return create(false, 0);
+function Scheduler(timer) {
+	this.timer = timer;
+
+	this._timer = null;
+	this._nextArrival = 0;
+	this._tasks = [];
+
+	var self = this;
+	this._runReadyTasksBound = function() {
+		self._runReadyTasks(self.now());
+	};
 }
 
-function holdSubject() {
-  var bufferSize = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-  var initialValue = arguments[1];
+Scheduler.prototype.now = function() {
+	return this.timer.now();
+};
 
-  if (bufferSize < 1) {
-    throw new Error('First argument to holdSubject is expected to be an ' + 'integer greater than or equal to 1');
-  }
-  return create(true, bufferSize, initialValue);
+Scheduler.prototype.asap = function(task) {
+	return this.schedule(0, -1, task);
+};
+
+Scheduler.prototype.delay = function(delay, task) {
+	return this.schedule(delay, -1, task);
+};
+
+Scheduler.prototype.periodic = function(period, task) {
+	return this.schedule(0, period, task);
+};
+
+Scheduler.prototype.schedule = function(delay, period, task) {
+	var now = this.now();
+	var st = new ScheduledTask(now + Math.max(0, delay), period, task, this);
+
+	insertByTime(st, this._tasks);
+	this._scheduleNextRun(now);
+	return st;
+};
+
+Scheduler.prototype.cancel = function(task) {
+	task.active = false;
+	var i = binarySearch(task.time, this._tasks);
+
+	if(i >= 0 && i < this._tasks.length) {
+		var at = base.findIndex(task, this._tasks[i].events);
+		if(at >= 0) {
+			this._tasks[i].events.splice(at, 1);
+			this._reschedule();
+		}
+	}
+};
+
+Scheduler.prototype.cancelAll = function(f) {
+	for(var i=0; i<this._tasks.length; ++i) {
+		removeAllFrom(f, this._tasks[i]);
+	}
+	this._reschedule();
+};
+
+function removeAllFrom(f, timeslot) {
+	timeslot.events = base.removeAll(f, timeslot.events);
 }
 
-exports.subject = subject;
-exports.holdSubject = holdSubject;
-},{"./Observer":3,"./Replay":4,"@most/multicast":1,"most":undefined}],6:[function(require,module,exports){
+Scheduler.prototype._reschedule = function() {
+	if(this._tasks.length === 0) {
+		this._unschedule();
+	} else {
+		this._scheduleNextRun(this.now());
+	}
+};
+
+Scheduler.prototype._unschedule = function() {
+	this.timer.clearTimer(this._timer);
+	this._timer = null;
+};
+
+Scheduler.prototype._scheduleNextRun = function(now) {
+	if(this._tasks.length === 0) {
+		return;
+	}
+
+	var nextArrival = this._tasks[0].time;
+
+	if(this._timer === null) {
+		this._scheduleNextArrival(nextArrival, now);
+	} else if(nextArrival < this._nextArrival) {
+		this._unschedule();
+		this._scheduleNextArrival(nextArrival, now);
+	}
+};
+
+Scheduler.prototype._scheduleNextArrival = function(nextArrival, now) {
+	this._nextArrival = nextArrival;
+	var delay = Math.max(0, nextArrival - now);
+	this._timer = this.timer.setTimer(this._runReadyTasksBound, delay);
+};
+
+
+Scheduler.prototype._runReadyTasks = function(now) {
+	this._timer = null;
+
+	this._tasks = this._findAndRunTasks(now);
+
+	this._scheduleNextRun(this.now());
+};
+
+Scheduler.prototype._findAndRunTasks = function(now) {
+	var tasks = this._tasks;
+	var l = tasks.length;
+	var i = 0;
+
+	while(i < l && tasks[i].time <= now) {
+		++i;
+	}
+
+	this._tasks = tasks.slice(i);
+
+	// Run all ready tasks
+	for (var j = 0; j < i; ++j) {
+		this._tasks = runTasks(tasks[j], this._tasks);
+	}
+	return this._tasks;
+};
+
+function runTasks(timeslot, tasks) {
+	var events = timeslot.events;
+	for(var i=0; i<events.length; ++i) {
+		var task = events[i];
+
+		if(task.active) {
+			runTask(task);
+
+			// Reschedule periodic repeating tasks
+			// Check active again, since a task may have canceled itself
+			if(task.period >= 0) {
+				task.time = task.time + task.period;
+				insertByTime(task, tasks);
+			}
+		}
+	}
+
+	return tasks;
+}
+
+function insertByTime(task, timeslots) {
+	var l = timeslots.length;
+
+	if(l === 0) {
+		timeslots.push(newTimeslot(task.time, [task]));
+		return;
+	}
+
+	var i = binarySearch(task.time, timeslots);
+
+	if(i >= l) {
+		timeslots.push(newTimeslot(task.time, [task]));
+	} else if(task.time === timeslots[i].time) {
+		timeslots[i].events.push(task);
+	} else {
+		timeslots.splice(i, 0, newTimeslot(task.time, [task]));
+	}
+}
+
+function binarySearch(t, sortedArray) {
+	var lo = 0;
+	var hi = sortedArray.length;
+	var mid, y;
+
+	while (lo < hi) {
+		mid = Math.floor((lo + hi) / 2);
+		y = sortedArray[mid];
+
+		if (t === y.time) {
+			return mid;
+		} else if (t < y.time) {
+			hi = mid;
+		} else {
+			lo = mid + 1;
+		}
+	}
+	return hi;
+}
+
+function newTimeslot(t, events) {
+	return { time: t, events: events };
+}
+
+},{"@most/prelude":9}],6:[function(require,module,exports){
+(function (process){
+/** @license MIT License (c) copyright 2010-2016 original author or authors */
+/** @author Brian Cavalier */
+/** @author John Hann */
+
+var Scheduler = require('./Scheduler');
+var setTimeoutTimer = require('./timeoutTimer');
+var nodeTimer = require('./nodeTimer');
+
+var isNode = typeof process === 'object'
+		&& typeof process.nextTick === 'function';
+
+module.exports = new Scheduler(isNode ? nodeTimer : setTimeoutTimer);
+
+}).call(this,require('_process'))
+},{"./Scheduler":5,"./nodeTimer":7,"./timeoutTimer":8,"_process":10}],7:[function(require,module,exports){
+/** @license MIT License (c) copyright 2010-2016 original author or authors */
+/** @author Brian Cavalier */
+/** @author John Hann */
+
+var defer = require('../defer');
+
+/*global setTimeout, clearTimeout*/
+
+function Task(f) {
+	this.f = f;
+	this.active = true;
+}
+
+Task.prototype.run = function() {
+	if(!this.active) {
+		return;
+	}
+	var f = this.f;
+	return f();
+};
+
+Task.prototype.error = function(e) {
+	throw e;
+};
+
+Task.prototype.cancel = function() {
+	this.active = false;
+};
+
+function runAsTask(f) {
+	var task = new Task(f);
+	defer(task);
+	return task;
+}
+
+module.exports = {
+	now: Date.now,
+	setTimer: function(f, dt) {
+		return dt <= 0 ? runAsTask(f) : setTimeout(f, dt);
+	},
+	clearTimer: function(t) {
+		return t instanceof Task ? t.cancel() : clearTimeout(t);
+	}
+};
+
+},{"../defer":4}],8:[function(require,module,exports){
+/** @license MIT License (c) copyright 2010-2016 original author or authors */
+/** @author Brian Cavalier */
+/** @author John Hann */
+
+/*global setTimeout, clearTimeout*/
+
+module.exports = {
+	now: Date.now,
+	setTimer: function(f, dt) {
+		return setTimeout(f, dt);
+	},
+	clearTimer: function(t) {
+		return clearTimeout(t);
+	}
+};
+
+},{}],9:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],10:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -700,14 +1223,14 @@ function callDrivers(drivers, sinkProxies) {
   var keys = Object.keys(drivers);
   for (var i = 0; i < keys.length; i++) {
     var name = keys[i];
-    sources[name] = drivers[name](sinkProxies[name].stream, name);
+    sources[name] = drivers[name](sinkProxies[name], name);
   }
   return sources;
 }
 
-function makeHandleError(observer, onError) {
+function makeHandleError(stream, onError) {
   return function handleError(err) {
-    observer.error(err);
+    stream.error(err);
     onError(err);
   };
 }
@@ -722,9 +1245,14 @@ function replicateMany(_ref) {
   for (var i = 0; i < sinkKeys.length; i++) {
     var name = sinkKeys[i];
     if (sinkProxies.hasOwnProperty(name)) {
-      var observer = sinkProxies[name].observer;
-
-      sinks[name].until(disposableStream).observe(observer.next).then(observer.complete).catch(makeHandleError(observer, onError));
+      (function () {
+        var stream = sinkProxies[name];
+        sinks[name].until(disposableStream).observe(function (x) {
+          return stream.next(x);
+        }).then(function (x) {
+          return stream.complete(x);
+        }).catch(makeHandleError(stream, onError));
+      })();
     }
   }
 }
@@ -774,20 +1302,15 @@ function run(main, drivers) {
   var onError = _ref3$onError === undefined ? logErrorToConsole : _ref3$onError;
 
   runInputGuard({ main: main, drivers: drivers, onError: onError });
-
-  var _subject = (0, _mostSubject.subject)();
-
-  var disposableObserver = _subject.observer;
-  var disposableStream = _subject.stream;
-
+  var disposableStream = (0, _mostSubject.subject)();
   var sinkProxies = makeSinkProxies(drivers);
   var sources = callDrivers(drivers, sinkProxies);
   var sinks = assertSinks(main(sources));
   replicateMany({ sinks: sinks, sinkProxies: sinkProxies, disposableStream: disposableStream, onError: onError });
 
   function dispose() {
-    disposableObserver.next(1);
-    disposableObserver.complete();
+    disposableStream.next(1);
+    disposableStream.complete();
   }
 
   return { sinks: sinks, sources: sources, dispose: dispose };
@@ -796,5 +1319,5 @@ function run(main, drivers) {
 exports.default = { run: run };
 exports.run = run;
 
-},{"most-subject":5}]},{},[6])(6)
+},{"most-subject":1}]},{},[11])(11)
 });

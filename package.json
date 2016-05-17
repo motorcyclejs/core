@@ -57,6 +57,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "browserify-shim": "^3.8.12",
+    "cli-release": "^1.0.4",
     "eslint": "^1.10.3",
     "eslint-config-cycle": "^3.2.0",
     "eslint-plugin-cycle": "^1.0.2",

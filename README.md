@@ -38,7 +38,7 @@ import {makeHTMLDriver} from '@motorcycle/dom'
 - @motorcycle/core - Please use [@cycle/most-run](https://github.com/cyclejs/most-run)
 - @motorcycle/history - Please use [@cycle/history](https://github.com/cyclejs/history), it is 100% stream library agnostic and will not add any unneeded dependencies.
 - @motorcycle/router - Please use [cyclic-router](https://github.com/cyclejs-community/cyclic-router), it is also 100% stream agnostic and will not andd any unneeded dependencies.
-@motorcycle/local-storage - This was a poorly done library to begin with, and I don't wish for anyone to reach for it. There is the very great [@cycle/storage](https://github.com/cyclejs/storage) driver, which with v3 can do stream conversions when used with @cycle/most-run. However it is written in xstream, and will require the xstream library to also be imported. local-storage as driver is very easily implemented per individual needs, please stop by the [Cycle.js gitter](https://gitter.im/cyclejs/core) or open an issue to discuss [here](https://github.com/cyclejs-community/cyclejs-community/issues/new).
+- @motorcycle/local-storage - This was a poorly done library to begin with, and I don't wish for anyone to reach for it. There is the very great [@cycle/storage](https://github.com/cyclejs/storage) driver, which with v3 can do stream conversions when used with @cycle/most-run. However it is written in xstream, and will require the xstream library to also be imported. local-storage as driver is very easily implemented per individual needs, please stop by the [Cycle.js gitter](https://gitter.im/cyclejs/core) or open an issue to discuss [here](https://github.com/cyclejs-community/cyclejs-community/issues/new).
 
 
 ## Want to Contribute?

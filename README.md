@@ -6,49 +6,54 @@
  [Snabbdom](https://github.com/paldepind/snabbdom) to interact
  with the DOM.
 
-[![Join the chat at https://gitter.im/motorcyclejs/motorcycle-core](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/motorcyclejs/motorcycle-core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/motorcyclejs/core.svg?branch=develop)](https://travis-ci.org/motorcyclejs/core)
+[![Join the chat at https://gitter.im/cyclejs/core](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cyclejs/core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/motorcyclejs/core.svg?branch=develop)](https://travis-ci.org/motorcyclejs/core)
 
 ## Install
 ```
 $ npm install @motorcycle/core
 ```
 
-## Is it a fork?
+## Merging with Cycle.js
+We are in the process of merging this project with [Cycle.js](https://github.com/cyclejs). But Why?
 
-This is **not** a fork of Cycle.js but a sister project that will
-continue to evolve and grow alongside Cycle.js for
-the foreseeable future. All of the core contributors
-of Motorcycle are, and continue to be, contributors
-to the Cycle.js project. Advancements in one will bring
-advancements in the other. Each have similar,
-yet different, goals.
 
-## Goals
+We get to merge two wonderful communities together and focus on solving problems rather than duplicating efforts. 
+Stream conversions are also now done in a mostly automatic way! 
+Want to use a driver written in xstream or Rx 5? No problem if the driver is written for Cycle.js Diversity. It will be entirely seamless for you :)
 
-The primary focus of this project is to build on the wonderful
-ideas brought to us by André Medeiros, also known by @staltz,
-through Cycle.js, and tune it for performance as much as possible.
+#### Libraries that will continue to be maintained for most.js *only*
 
- Most.js plays an incredibly huge part in that, as benchmarks
- place *Most* about 200-400x times faster than RxJS 4. *Most*
- is built with a very small core API, compared to RxJS,
- and is entirely modular and extensible. For more information
- on *Most*, please visit the [Github page](https://github.com/cujojs/most)
- or join us on the [Gitter chat room](https://gitter.im/cujojs/most).
+##### **DOM Driver**
+@motorcycle/dom will continue to be the speed king that it currently is. It is at 100% feature parity with the latest Cycle.js Diversity version of @cycle/dom as of v2.0.0. However, it will **not** do any stream conversion like @cycle/dom to maximize performance to its greatest potential. @motorcycle/html has be rolled into this library for ease of maintanence going forward as well. Now imported as 
 
-[The standard DOM Driver][motorcycle-dom] is built using
-[Snabbdom][snabbdom], a better performing virtual DOM
-implementation than that used by Cycle-DOM. It continues
-to implement the same APIs, with better performing alternatives
-to come. Snabbdom eases many issues of using virtual DOM through
-life cycle hooks to continue to use existing libraries that work
-with the DOM directly. Snabbdom is also very modular
-and can be extended quite easily.
+```js
+import {makeHTMLDriver} from '@motorcycle/dom'
+```
+
+##### **HTTP Driver**
+@motorcycle/http will soon be at feature parity with the newest version of @cycle/http and will be maintained to avoid the need to import xstream as a dependency.
+
+##### **What about everything else that used to be here?**
+- @motorcycle/core - Please use [@cycle/most-run](https://github.com/cyclejs/most-run)
+- @motorcycle/history - Please use [@cycle/history](https://github.com/cyclejs/history), it is 100% stream library agnostic and will not add any unneeded dependencies.
+- @motorcycle/router - Please use [cyclic-router](https://github.com/cyclejs-community/cyclic-router), it is also 100% stream agnostic and will not andd any unneeded dependencies.
+@motorcycle/local-storage - This was a poorly done library to begin with, and I don't wish for anyone to reach for it. There is the very great [@cycle/storage](https://github.com/cyclejs/storage) driver, which with v3 can do stream conversions when used with @cycle/most-run. However it is written in xstream, and will require the xstream library to also be imported. local-storage as driver is very easily implemented per individual needs, please stop by the [Cycle.js gitter](https://gitter.im/cyclejs/core) or open an issue to discuss [here](https://github.com/cyclejs-community/cyclejs-community/issues/new).
+
 
 ## Want to Contribute?
 
 If you found an issue or want to contribute code, please read
-the [contributing guidelines][contributing]
+the [contributing guidelines](CONTRIBUTING.md).
+
+If would like to have a repository considered for inclusion in the
+Motorcycle.js Github and NPM organizations, please open an issue first to avoid
+duplication of effort and further the possibility of your work being accepted.
+Afterwards, please refer to our [repository guidelines](REPOSITORIES.md).
+
+## Useful Utilities
+- [most-subject](https://github.com/TylorS/most-subject) - A subject
+implementation for most.js
+- [most-proxy](https://github.com/Tylors/most-proxy) - Declarative circular dependencies for most.js
 
 ## API
 

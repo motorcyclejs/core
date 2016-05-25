@@ -10,7 +10,8 @@
 
 ## Install
 ```
-$ npm install @motorcycle/core
+$ npm install @motorcycle/core // you can but don't ;)
+$ npm install @cycle/most-run
 ```
 
 ## Merging with Cycle.js
@@ -61,10 +62,15 @@ implementation for most.js
 
 ###### Importing
 ```js
-//ES6 - recommended =)
-import {run} from '@motorcycle/core'
-//ES5
-var run = require('@motorcycle-core').run
+// Why are you still using @motorcycle/core
+import Motorcycle from '@motorcycle/core'
+
+Motorcycle.run(main, drivers)
+
+// What you should be doing
+import Cycle from '@cycle/most-run'
+
+Cycle.run(main, drivers)
 ```
 
 Takes a `main` function and circularly connects it to the given

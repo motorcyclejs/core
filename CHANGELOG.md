@@ -1,3 +1,13 @@
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/motorcyclejs/core/compare/v1.4.0...v1.5.0) (2016-11-10)
+
+
+### Bug Fixes
+
+* **src:** remove unused import ([db1eed0](https://github.com/motorcyclejs/core/commit/db1eed0))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/motorcyclejs/core/compare/v1.3.0...v1.4.0) (2016-11-10)
 

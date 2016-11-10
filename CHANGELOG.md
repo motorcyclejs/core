@@ -1,63 +1,105 @@
-# v1.3.0 (2016-05-17)
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/motorcyclejs/core/compare/v1.3.0...v1.4.0) (2016-11-10)
 
 
-# v1.2.0 (2016-03-09)
+### Features
+
+* **core:** Rewrite in TypeScript ([4c87c86](https://github.com/motorcyclejs/core/commit/4c87c86))
 
 
-## Bug Fixes
 
-- fix typo
-  ([fb75953e](https://github.com/motorcyclejs/core/commits/fb75953ec365f71cb623b38d27e55edf60cb3eaf))
-
-
-## Features
-
-- add optional onError function and assertSinks function
-  ([f942712d](https://github.com/motorcyclejs/core/commits/f942712dfe9d44e672e29e692f719a3958d3c2d1))
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/motorcyclejs/core/compare/v1.2.1...v1.3.0) (2016-05-17)
 
 
-# v1.1.0 (2016-02-07)
+
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/motorcyclejs/core/compare/v1.2.0...v1.2.1) (2016-03-30)
 
 
-## Bug Fixes
 
-- revert breaking change related to drivers
-  ([f110f0a3](https://github.com/motorcyclejs/core/commits/f110f0a3a35e7824c2850f7cd9bc7f31d24b912f),
-   [#35]([object Object]/35))
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/motorcyclejs/core/compare/v1.1.0...v1.2.0) (2016-03-09)
 
 
-# v1.0.0 (2015-12-30)
+### Bug Fixes
+
+* fix typo ([fb75953](https://github.com/motorcyclejs/core/commit/fb75953))
 
 
-## Bug Fixes
+### Features
 
-- revert breaking change related to drivers
-  ([f110f0a3](https://github.com/motorcyclejs/core/commits/f110f0a3a35e7824c2850f7cd9bc7f31d24b912f),
-   [#35]([object Object]/35))
+* add optional onError function and assertSinks function ([f942712](https://github.com/motorcyclejs/core/commit/f942712))
 
 
-# v0.2.0 (2015-12-21)
+
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/motorcyclejs/core/compare/v0.2.0...v1.1.0) (2016-02-07)
 
 
-## Bug Fixes
+### Bug Fixes
 
-- report error message instead of stack
-    ([8b28b752](https://github.com/motorcyclejs/core/commits/8b28b752adda2aa6dbc32b82393719670062b365))
-- check for console
-    ([aad76745](https://github.com/motorcyclejs/core/commits/aad767452fb5b8e37ae47fd2cbe5865403123ff1))
-- **dispose:** support drivers that don't return streams
-  ([786adb28](https://github.com/motorcyclejs/core/commits/786adb2832cd60787780dbc9367cd5e9281d4157))
-- **index:** add check for driverName in sinkProxies
-  ([aa886bdc](https://github.com/motorcyclejs/core/commits/aa886bdcacb36dfc8737ce9b41f44742e905f88f))
-- **test:** fix test for error reporting
-  ([cc72c6c8](https://github.com/motorcyclejs/core/commits/cc72c6c877bb79800a17c576b30bbb83d1aaa673))
+* revert breaking change related to drivers ([f110f0a](https://github.com/motorcyclejs/core/commit/f110f0a)), closes [#35](https://github.com/motorcyclejs/core/issues/35)
 
 
-## Features
 
-- **dispose:** add dispose()
-  ([0a8f718c](https://github.com/motorcyclejs/core/commits/0a8f718c3c3d7bf7d4fb4a726026a375e5607a38))
-- **errors:** log errors to console
-  ([379d230f](https://github.com/motorcyclejs/core/commits/379d230ff0ed3d12cef9bf798c319c8de6cd8da6))
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/motorcyclejs/core/compare/v0.1.7...v0.2.0) (2015-12-21)
+
+
+### Bug Fixes
+
+* check for console ([aad7674](https://github.com/motorcyclejs/core/commit/aad7674))
+* report error message instead of stack ([8b28b75](https://github.com/motorcyclejs/core/commit/8b28b75))
+* **dispose:** support drivers that don't return streams ([786adb2](https://github.com/motorcyclejs/core/commit/786adb2))
+* **index:** add check for driverName in sinkProxies ([aa886bd](https://github.com/motorcyclejs/core/commit/aa886bd))
+* **test:** fix test for error reporting ([cc72c6c](https://github.com/motorcyclejs/core/commit/cc72c6c))
+
+
+### Features
+
+* **dispose:** add dispose() ([0a8f718](https://github.com/motorcyclejs/core/commit/0a8f718))
+* **errors:** log errors to console ([379d230](https://github.com/motorcyclejs/core/commit/379d230)), closes [#24](https://github.com/motorcyclejs/core/issues/24)
+
+
+
+<a name="0.1.7"></a>
+## [0.1.7](https://github.com/motorcyclejs/core/compare/v0.1.6...v0.1.7) (2015-11-13)
+
+
+
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/motorcyclejs/core/compare/v0.1.5...v0.1.6) (2015-11-13)
+
+
+
+<a name="0.1.5"></a>
+## [0.1.5](https://github.com/motorcyclejs/core/compare/v0.1.4...v0.1.5) (2015-11-13)
+
+
+
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/motorcyclejs/core/compare/v0.1.3...v0.1.4) (2015-11-11)
+
+
+
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/motorcyclejs/core/compare/v0.1.2...v0.1.3) (2015-11-11)
+
+
+
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/motorcyclejs/core/compare/v0.1.1...v0.1.2) (2015-11-09)
+
+
+
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/motorcyclejs/core/compare/v0.0.0...v0.1.1) (2015-11-09)
+
+
+
+<a name="0.0.0"></a>
+# 0.0.0 (2015-11-09)
+
 
 

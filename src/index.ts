@@ -1,4 +1,3 @@
-import { curry2 } from '@most/prelude';
 import { Stream, Subscription, Subscriber } from 'most';
 import { Subject, sync, next, error, complete } from 'most-subject';
 

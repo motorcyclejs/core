@@ -12,6 +12,7 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "strictNullChecks": true,
     "types": [
       "node"

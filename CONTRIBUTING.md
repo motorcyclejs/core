@@ -1,5 +1,11 @@
-# Contributing to MotorcycleJS
+# Contributing
 
-We'd highly appreciate your contribution to our source code 
-and making MotorcycleJS even better. 
-[Please read our contributing guidelines](https://github.com/motorcyclejs/motorcycle/blob/master/CONTRIBUTING.md).
+First of all, thank you so much, we need your help.
+
+## Contributing a fix or feature
+
+1. Fork the repository
+2. Switch to a new branch `git checkout -b [branchName]`
+3. Produce your fix or feature
+4. Use `npm run commit` instead of `git commit` PLEASE!
+5. Submit a pull request for review

@@ -1,31 +1,25 @@
 {
   "name": "@motorcycle/core",
   "version": "1.3.0",
-  "description": "Cycle.js with most.js reactive library instead of RxJS.",
-  "main": "lib/index.js",
-  "directories": {
-    "lib": "./lib"
-  },
-  "files": [
-    "lib/"
-  ],
+  "description": "Functional and Reactive Framework",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/es2015/index.js",
+  "jsnext:main": "lib/es2015/index.js",
+  "typings": "lib/es2015/index.d.ts",
   "scripts": {
-    "eslint": "eslint src/",
-    "mocha": "mocha --compilers js:babel-core/register",
-    "test-browser": "testem",
-    "test-ci": "testem ci",
-    "test": "npm run eslint && npm run mocha && npm run test-ci",
-    "start": "npm install && npm prune && validate-commit-msg",
-    "precompile": "rimraf lib && mkdirp lib",
-    "compile": "babel -d lib/ src/",
-    "predist": "rimraf dist && mkdirp dist",
-    "dist": "browserify -t babelify src/index.js --standalone Motorcycle --exclude most -o dist/motorcycle.js",
-    "postdist": "uglifyjs dist/motorcycle.js -o dist/motorcycle.min.js",
-    "prepublish": "npm run compile && npm run dist",
-    "release": "npm run release-patch",
-    "release-patch": "git checkout master && release patch && npm publish --access=public",
-    "release-minor": "git checkout master && release minor && npm publish --access=public",
-    "release-major": "git checkout master && release major && npm publish --access=public"
+    "test:lint": "tslint src/**/*.ts src/*.ts",
+    "test:unit": "TS_NODE_PROJECT=test/tsconfig.json mocha -r ts-node/register test/*.ts",
+    "test": "npm run test:lint && npm run test:unit",
+    "commit": "git-cz",
+    "changelog": "conventional-changelog --infile CHANGELOG.md --same-file --release-count 0 --preset angular",
+    "postchangelog": "git add CHANGELOG.md && git commit -m 'docs(CHANGELOG): append to changled' && git push origin master",
+    "build:es2015": "tsc -P tsconfig.json",
+    "build:commonjs": "tsc -P tsconfig-commonjs.json",
+    "build": "npm run build:es2015 && npm run build:commonjs",
+    "preversion": "npm run build",
+    "postversion": "git push origin master && git push origin --tags && npm publish && npm run changelog",
+    "release:minor": "npm version minor -m 'chore(package): v%s'",
+    "release:major": "npm version major -m 'chore(package): v%s'"
   },
   "repository": {
     "type": "git",
@@ -48,30 +42,31 @@
   "contributors": [
     "Frederik Krautwald <fkrautwald@gmail.com> (https://github.com/Frikki)"
   ],
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    },
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
+    }
+  },
   "devDependencies": {
-    "assert": "^1.3.0",
-    "babel-cli": "^6.8.0",
-    "babel-core": "^6.8.0",
-    "babel-eslint": "^6.0.4",
-    "babel-preset-es2015": "^6.6.0",
-    "babelify": "^7.3.0",
-    "browserify": "^13.0.1",
-    "browserify-shim": "^3.8.12",
-    "cli-release": "^1.0.4",
-    "eslint": "^1.10.3",
-    "eslint-config-cycle": "^3.2.0",
-    "eslint-plugin-cycle": "^1.0.2",
-    "eslint-plugin-no-class": "^0.1.0",
-    "mkdirp": "^0.5.1",
-    "mocha": "^2.4.5",
-    "rimraf": "^2.5.2",
-    "sinon": "^1.17.4",
-    "testem": "^1.7.1",
-    "uglifyjs": "^2.4.10",
-    "validate-commit-message": "^3.0.1"
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.46",
+    "@types/sinon": "^1.16.31",
+    "commitizen": "^2.8.6",
+    "conventional-changelog-cli": "^1.2.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "ghooks": "^1.3.2",
+    "mocha": "^3.1.2",
+    "sinon": "^1.17.6",
+    "ts-node": "^1.7.0",
+    "tslint": "^4.0.0-dev.1",
+    "typescript": "^2.1.0-dev.20161109",
+    "validate-commit-msg": "^2.8.2"
   },
   "dependencies": {
-    "most": "^0.19.4",
-    "most-subject": "^4.0.2"
+    "most": "^1.0.5",
+    "most-subject": "^5.1.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@motorcycle/core",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "Functional and Reactive Framework",
   "main": "lib/commonjs/index.js",
   "module": "lib/es2015/index.js",

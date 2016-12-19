@@ -8,8 +8,11 @@ export interface Object<T> {
   [key: string]: T;
 }
 
-export interface Component<Sources extends Object<Source>, Sinks extends Object<Sink<any>>> {
-  (sources: Sources): Sinks;
+export type Sources = Object<Source>;
+export type Sinks = Object<Sink<any>>;
+
+export interface Component<ComponentSources extends Sources, ComponentSinks extends Sinks> {
+  (sources: ComponentSources): ComponentSinks;
 }
 
 export interface DriverFn<T, R> {
@@ -20,20 +23,26 @@ export interface Drivers {
   [key: string]: DriverFn<any, any>;
 }
 
-export function run<Sources extends Object<Source>, Sinks extends Object<Source>> (
-  component: Component<Sources, Sinks>,
+export function run<ComponentSources extends Sources, ComponentSinks extends Sinks> (
+  component: Component<ComponentSources, ComponentSinks>,
   drivers: Drivers)
 {
   const disposableSubject: Subject<void> = sync<void>();
-  const sinkProxies: Sinks = createSinkProxies<Sinks>(drivers);
-  const sources: Sources = callDrivers<Sources, Sinks>(drivers, sinkProxies);
-  const sinks: Sinks = callComponent<Sources, Sinks>(component, sources, disposableSubject);
-  const subscriptions: Array<Subscription<any>> = replicateSinks<Sinks>(sinks, sinkProxies);
+  const sinkProxies: ComponentSinks = createSinkProxies<ComponentSinks>(drivers);
+
+  const sources: ComponentSources =
+    callDrivers<ComponentSources, ComponentSinks>(drivers, sinkProxies);
+
+  const sinks: ComponentSinks =
+    callComponent<ComponentSources, ComponentSinks>(component, sources, disposableSubject);
+
+  const subscriptions: Array<Subscription<any>> =
+    replicateSinks<ComponentSinks>(sinks, sinkProxies);
 
   function dispose () {
     next(void 0, disposableSubject);
-    disposeSinkProxies<Sinks>(sinkProxies);
-    disposeSources<Sources>(sources);
+    disposeSinkProxies<ComponentSinks>(sinkProxies);
+    disposeSources<ComponentSources>(sources);
     subscriptions.forEach(unsubscribe);
   }
 

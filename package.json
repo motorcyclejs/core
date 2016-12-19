@@ -51,6 +51,7 @@
     }
   },
   "devDependencies": {
+    "@motorcycle/tslint": "1.2.0",
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.46",
     "@types/sinon": "^1.16.31",
@@ -61,8 +62,8 @@
     "mocha": "^3.1.2",
     "sinon": "^1.17.6",
     "ts-node": "^1.7.0",
-    "tslint": "^4.0.0-dev.1",
-    "typescript": "^2.1.0-dev.20161109",
+    "tslint": "^4.1.1",
+    "typescript": "^2.1.4",
     "validate-commit-msg": "^2.8.2"
   },
   "dependencies": {

@@ -4,19 +4,23 @@ import { Subject, sync, next, error, complete } from 'most-subject';
 export type Sink<T> = Stream<T>;
 export type Source = any;
 
-export interface Component<Sources, Sinks> {
+export interface Object<T> {
+  [key: string]: T;
+}
+
+export interface Component<Sources extends Object<Source>, Sinks extends Object<Sink<any>>> {
   (sources: Sources): Sinks;
 }
 
-export interface DriverFn {
-  <T, R>(sink: Sink<T>): R;
+export interface DriverFn<T, R> {
+  (sink: Sink<T>): R;
 }
 
 export interface Drivers {
-  [key: string]: DriverFn;
+  [key: string]: DriverFn<any, any>;
 }
 
-export function run<Sources, Sinks> (
+export function run<Sources extends Object<Source>, Sinks extends Object<Source>> (
   component: Component<Sources, Sinks>,
   drivers: Drivers)
 {
@@ -53,7 +57,7 @@ function callDrivers<Sources, Sinks> (drivers: Drivers, sinkProxies: Sinks): Sou
     }, {} as Sources);
 }
 
-function callComponent<Sources, Sinks> (
+function callComponent<Sources extends Object<Source>, Sinks extends Object<Source>> (
   component: Component<Sources, Sinks>,
   sources: Sources,
   disposableSubject: Subject<any>): Sinks

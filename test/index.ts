@@ -130,7 +130,7 @@ describe('Motorcycle Core', () => {
 
       it('prints errors to the console', (done) => {
         const sandbox = sinon.sandbox.create();
-        sandbox.stub(console, `error`);
+        const stub = sandbox.stub(console, `error`);
 
         const main = (sources: any) => ({
           other: sources.other.map(() => {
@@ -143,7 +143,7 @@ describe('Motorcycle Core', () => {
         Motorcycle.run(main, {other: driver});
 
         setTimeout(() => {
-          sinon.assert.calledOnce(console.error as Sinon.SinonSpy);
+          sinon.assert.calledOnce(stub);
           sandbox.restore();
           done();
         }, 10);

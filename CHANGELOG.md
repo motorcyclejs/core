@@ -1,3 +1,18 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/motorcyclejs/core/compare/v1.6.0...v2.0.0) (2016-12-19)
+
+
+### Features
+
+* **core:** update DriverFn, Sources, and Sinks type signatures ([#58](https://github.com/motorcyclejs/core/issues/58)) ([013d167](https://github.com/motorcyclejs/core/commit/013d167))
+
+
+### BREAKING CHANGES
+
+* core: DriverFn is now a Generic. Sources and Sinks types are always objects.
+
+
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/motorcyclejs/core/compare/v1.5.0...v1.6.0) (2016-11-12)
 
